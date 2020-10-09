@@ -1,0 +1,12 @@
+.nasa-slider {
+    max-width: 500px !important;
+    max-height: 300px !important;
+}
+
+.nasa-slider-item {
+    margin: 5px;
+}
+
+.nasa-slider-item img{
+    margin: 0 auto;
+}
