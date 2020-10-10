@@ -48,7 +48,7 @@
         <div class="admin-text"><a href="https://api.nasa.gov/index.html#signUp" target="_blank"><?php _e('Get API key', $this->plugin_name);?></a></div>
     </fieldset>
     <fieldset>
-        <div class="admin-text"><?php _e('Use the shortcode', $this->plugin_name);?> <span class="admin-shortcode">[nasa-gallery]</span> <?php _e('to display the image gallery', $this->plugin_name);?></div>
+        <div class="admin-text"><?php _e('Use the shortcode', $this->plugin_name);?> <span class="admin-shortcode">[nasa_apod]</span> <?php _e('to display the image gallery', $this->plugin_name);?></div>
     </fieldset>
 
     <?php if (count($posts) < 5 && !empty($options['api_key'])) { ?>

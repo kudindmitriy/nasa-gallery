@@ -19,7 +19,7 @@ Show a gallery of NASA images
 1. Upload `nasa-gallery` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to plugin settings and add NASA API key
-4. Use the shortcode [nasa-gallery] to display the image gallery
+4. Use the shortcode [nasa_apod] to display the image gallery
 
 == Changelog ==
 
