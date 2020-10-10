@@ -15,26 +15,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'get_plugins' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-}
-$all_plugins = get_plugins();
+$option_name = 'nasa-gallery';
 
-if ( ! array_key_exists( 'nasa-gallery/nasa-gallery.php', $all_plugins ) ) {
-    if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-        $old_blog = $wpdb->blogid;
-        /* Get all blog ids */
-        $blogids = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
-        foreach ( $blogids as $blog_id ) {
-            switch_to_blog( $blog_id );
-            delete_option( 'nasa-gallery' );
-        }
-        switch_to_blog( $old_blog );
-    } else {
-        delete_option( 'nasa-gallery' );
-    }
-}
+delete_option($option_name);
 
-if ( is_multisite() ) {
-    delete_site_option( 'nasa-gallery' );
-}
+// for site options in Multisite
+delete_site_option($option_name);
