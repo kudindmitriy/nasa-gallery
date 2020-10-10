@@ -1,32 +1,37 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	$(document).ready(function(){
+		$( '#upload-images' ).on( 'click', function(){
+
+			var dataJSON = {
+				'action': 'prefix_ajax_upload_images',
+			};
+
+			$.ajax({
+				cache: false,
+				type: "POST",
+				url: ajaxurl,
+				data: dataJSON,
+				beforeSend: function( xhr ) {
+					$('#loader').show();
+					$('#upload-images').hide();
+				},
+				success: function( response ){
+					$('#loader').hide();
+					$('#response').addClass('notice notice-success');
+					$('#response p').text(response);
+
+				},
+				error: function( xhr, status, error ) {
+					console.log( 'Status: ' + xhr.status );
+					console.log( 'Error: ' + xhr.responseText );
+					$('#loader').hide();
+					$('#response').addClass('notice notice-error');
+					$('#response p').text(xhr.responseText);
+				}
+			});
+		});
+	});
 
 })( jQuery );

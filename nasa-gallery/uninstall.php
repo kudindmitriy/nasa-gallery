@@ -15,8 +15,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'get_plugins' ) )
+if ( ! function_exists( 'get_plugins' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+}
 $all_plugins = get_plugins();
 
 if ( ! array_key_exists( 'nasa-gallery/nasa-gallery.php', $all_plugins ) ) {
@@ -34,5 +35,6 @@ if ( ! array_key_exists( 'nasa-gallery/nasa-gallery.php', $all_plugins ) ) {
     }
 }
 
-if ( is_multisite() )
+if ( is_multisite() ) {
     delete_site_option( 'nasa-gallery' );
+}

@@ -83,9 +83,9 @@ class Nasa_Gallery {
             wp_schedule_event( time(), 'daily', 'nasa_cron' );
         }
 
-        if ( !wp_next_scheduled('check_nasa_gallery' ) ) {
-            wp_schedule_single_event( time() , 'check_nasa_gallery' );
-        }
+//        if ( !wp_next_scheduled('check_nasa_gallery' ) ) {
+//            wp_schedule_single_event( time() , 'check_nasa_gallery' );
+//        }
 
     }
 
@@ -180,6 +180,8 @@ class Nasa_Gallery {
         $this->loader->add_action('nasa_cron', $plugin_admin, 'get_nasa_apod');
 
         $this->loader->add_action('check_nasa_gallery', $plugin_admin, 'check_uploaded_nasa_gallery');
+
+        $this->loader->add_action('wp_ajax_prefix_ajax_upload_images', $plugin_admin, 'ajax_upload_images');
 
     }
 

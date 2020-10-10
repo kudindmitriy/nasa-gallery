@@ -9,6 +9,7 @@
 			fade: true,
 			cssEase: 'linear'
 		});
+
 	});
 
 })( jQuery );

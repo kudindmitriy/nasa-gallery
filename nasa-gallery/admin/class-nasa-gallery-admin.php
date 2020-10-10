@@ -149,6 +149,11 @@ class Nasa_Gallery_Admin {
     public function validate($input) {
         $valid = array();
         $valid['api_key'] = (isset($input['api_key']) && !empty($input['api_key'])) ? $input['api_key'] : '';
+
+        if (!empty($valid['api_key'])) {
+            $this->check_uploaded_nasa_gallery();
+        }
+
         return $valid;
     }
 
@@ -199,7 +204,7 @@ class Nasa_Gallery_Admin {
     }
 
     /**
-     * Create custom post type
+     * Create posts with images
      * @param string $date
      */
     function get_nasa_apod($date = '') {
@@ -207,10 +212,10 @@ class Nasa_Gallery_Admin {
             $date = wp_date( 'Y-m-d' );
         }
         $api_key = $this->plugin_options['api_key'];
-        $NasaAPI = new Nasa_API($api_key);
+        $NasaAPI = new Nasa_API($api_key, $this->plugin_name);
         $nasa_image = $NasaAPI->getAPOD($date);
 
-        if (!empty($nasa_image) && !empty($nasa_image->url)) {
+        if (!empty($nasa_image) && !empty($nasa_image->url) && !is_wp_error($nasa_image)) {
             $post = get_page_by_title($nasa_image->date, OBJECT, 'post-nasa-gallery');
 
             if (!empty($post)) {
@@ -226,10 +231,11 @@ class Nasa_Gallery_Admin {
             $upload_dir = wp_upload_dir();
             $image_data = file_get_contents($nasa_image->url);
             $filename = basename($nasa_image->url);
-            if(wp_mkdir_p($upload_dir['path']))
+            if (wp_mkdir_p($upload_dir['path'])) {
                 $file = $upload_dir['path'] . '/' . $filename;
-            else
+            } else {
                 $file = $upload_dir['basedir'] . '/' . $filename;
+            }
             file_put_contents($file, $image_data);
 
             $wp_filetype = wp_check_filetype($filename, null );
@@ -242,11 +248,9 @@ class Nasa_Gallery_Admin {
             $attach_id = wp_insert_attachment( $attachment, $file, $post_id );
             require_once(ABSPATH . 'wp-admin/includes/image.php');
             $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-            $res1= wp_update_attachment_metadata( $attach_id, $attach_data );
-            $res2= set_post_thumbnail( $post_id, $attach_id );
-
+            wp_update_attachment_metadata( $attach_id, $attach_data );
+            set_post_thumbnail( $post_id, $attach_id );
         }
-
 
     }
 
@@ -259,12 +263,14 @@ class Nasa_Gallery_Admin {
 
         if (count($posts) < 5) {
             for ($i = 1; $i <= 5 - count($posts); $i++) {
-                $time[] = wp_date( 'Y-m-d' ,  strtotime('-'. $i . ' day'));
-                $this->get_nasa_apod(wp_date( 'Y-m-d' ,  strtotime('-'. $i . ' day')));
+                $response[] = $this->get_nasa_apod(wp_date( 'Y-m-d' ,  strtotime('-'. $i . ' day')));
             }
-            var_dump($time);
         }
+    }
 
+    public function ajax_upload_images() {
+        $this->check_uploaded_nasa_gallery();
+        die( json_encode( __('Images uploaded', $this->plugin_name) ) );
     }
 
 }

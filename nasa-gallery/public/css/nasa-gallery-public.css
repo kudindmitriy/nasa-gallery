@@ -10,3 +10,7 @@
 .nasa-slider-item img{
     margin: 0 auto;
 }
+
+.slick-arrow::before {
+    color: #0073aa
+}
