@@ -222,14 +222,15 @@ class Nasa_Gallery_Admin {
         }
         $api_key = $this->plugin_options['api_key'];
         $NasaAPI = new Nasa_API($api_key, $this->plugin_name);
+
+        $post = get_page_by_title($date, OBJECT, 'post-nasa-gallery');
+        if (!empty($post)) {
+            return;
+        }
+
         $nasa_image = $NasaAPI->getAPOD($date);
 
         if (!empty($nasa_image) && !empty($nasa_image->url) && !is_wp_error($nasa_image)) {
-            $post = get_page_by_title($nasa_image->date, OBJECT, 'post-nasa-gallery');
-
-            if (!empty($post)) {
-                return;
-            }
 
             $post_id = wp_insert_post(array(
                 'post_title' => $nasa_image->date,
