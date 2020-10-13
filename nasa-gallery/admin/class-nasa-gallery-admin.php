@@ -232,6 +232,10 @@ class Nasa_Gallery_Admin {
 
         if (!empty($nasa_image) && !empty($nasa_image->url) && !is_wp_error($nasa_image)) {
 
+            if (isset($nasa_image->media_type) && $nasa_image->media_type === 'video') {
+                return;
+            }
+
             $post_id = wp_insert_post(array(
                 'post_title' => $nasa_image->date,
                 'post_type' => 'post-nasa-gallery',
