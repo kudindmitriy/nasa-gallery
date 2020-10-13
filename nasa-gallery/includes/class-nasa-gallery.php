@@ -83,10 +83,6 @@ class Nasa_Gallery {
             wp_schedule_event( time(), 'daily', 'nasa_cron' );
         }
 
-//        if ( !wp_next_scheduled('check_nasa_gallery' ) ) {
-//            wp_schedule_single_event( time() , 'check_nasa_gallery' );
-//        }
-
     }
 
 	/**

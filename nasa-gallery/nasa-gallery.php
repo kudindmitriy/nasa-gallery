@@ -38,15 +38,6 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'NASA_GALLERY_VERSION', '1.0.0' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-nasa-gallery-activator.php
- */
-function activate_nasa_gallery() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-nasa-gallery-activator.php';
-	Nasa_Gallery_Activator::activate();
-}
-
-/**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-nasa-gallery-deactivator.php
  */
