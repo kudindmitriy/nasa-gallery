@@ -46,7 +46,6 @@ function deactivate_nasa_gallery() {
 	Nasa_Gallery_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_nasa_gallery' );
 register_deactivation_hook( __FILE__, 'deactivate_nasa_gallery' );
 
 /**
