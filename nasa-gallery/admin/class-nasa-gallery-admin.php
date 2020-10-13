@@ -44,6 +44,7 @@ class Nasa_Gallery_Admin {
      */
 
     private $plugin_options;
+    private $ajax_nonce_action;
 
     /**
 	 * Initialize the class and set its properties.
@@ -57,7 +58,7 @@ class Nasa_Gallery_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
         $this->plugin_options = get_option($this->plugin_name);
-
+        $this->ajax_nonce_action = $this->plugin_name . 'ajax-nonce';
 	}
 
 	/**
@@ -104,7 +105,15 @@ class Nasa_Gallery_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/nasa-gallery-admin.js', array( 'jquery' ), $this->version, false );
 
-	}
+        wp_localize_script( $this->plugin_name, 'localize',
+            array(
+                'nonce' => wp_create_nonce($this->ajax_nonce_action)
+            )
+        );
+
+
+
+    }
 
 
     /**
@@ -269,6 +278,11 @@ class Nasa_Gallery_Admin {
     }
 
     public function ajax_upload_images() {
+
+        if( ! wp_verify_nonce( $_POST['nonce_code'], $this->ajax_nonce_action ) ) {
+            wp_die( __('Invalid nonce code', $this->plugin_name) , 403 );
+        }
+
         $this->check_uploaded_nasa_gallery();
         die( json_encode( __('Images uploaded', $this->plugin_name) ) );
     }

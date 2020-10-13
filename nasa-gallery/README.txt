@@ -1,7 +1,7 @@
 === NASA Gallery ===
 
 Donate link: https://github.com/kudindmitriy
-Tags: comments, spam
+Tags: gallery, astronomy, NASA
 Requires at least: 5.5.1
 Tested up to: 5.5.1
 Stable tag: 1.0.0

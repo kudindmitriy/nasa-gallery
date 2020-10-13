@@ -3,9 +3,9 @@
 
 	$(document).ready(function(){
 		$( '#upload-images' ).on( 'click', function(){
-
 			var dataJSON = {
-				'action': 'prefix_ajax_upload_images',
+				action: 'prefix_ajax_upload_images',
+				nonce_code : localize.nonce
 			};
 
 			$.ajax({
